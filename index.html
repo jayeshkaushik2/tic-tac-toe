@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        background-color: white;
+        color: black;
+        margin: 0px;
+        width: 100%;
+    }
+
+    .heading {
+        text-align: center;
+        background: #6b6afc;
+        color: white;
+        width: 100%;
+        padding-top: 10px;
+    }
+
+    .main {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        width: fit-content;
+        margin-top: 50px;
+    }
+
+
+    .box {
+        background-color: aqua;
+        /* next color #00adff */
+        color: black;
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        vertical-align: middle;
+        display: inherit;
+        border: 1px solid gray;
+        font-size: 50px;
+    }
+
+    .winner-heading {
+        color: black;
+        height: 30px;
+        font-size: 20px;
+    }
+
+    .restart-game {
+        margin-top: 10px;
+        width: 100%;
+        height: 30px;
+        background: blue;
+        color: white;
+        border-radius: 7px;
+        border: none;
+        font-size: 20px;
+    }
+
+    .player-info {
+        display: flex;
+        text-align: center;
+        background-color: aliceblue;
+        color: white;
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .player-info-head {
+        background: #6b6bff;
+        width: fit-content;
+        border-radius: 10px;
+        color: white;
+        padding: 10px;
+        margin: 0px;
+    }
+
+    .player-info-head-1 {
+        margin-left: 5px;
+    }
+
+    .player-info-head-2 {
+        margin-left: auto;
+        margin-right: 5px;
+    }
+
+    .msg {
+        vertical-align: middle;
+        background: #c7fdfd;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid gray;
+        border-right: 1px solid gray;
+        padding-top: 6px;
+    }
+</style>
+
+<body>
+    <div>
+        <div class="heading">
+            <h1>Tic Tac Toe</h1>
+            <div class="player-info">
+                <h3 class="player-info-head player-info-head-1">Player 1 is X</h3>
+                <h3 class="player-info-head player-info-head-2">Player 2 is O</h3>
+            </div>
+        </div>
+
+
+        <div class="main">
+            <div class="winner-heading msg" id="winner_heading" hidden></div>
+            <table>
+                <tr>
+                    <th>
+                        <button class="box" id="1" onclick={btnClickHandler(id)}>
+                        </button>
+                    </th>
+                    <th>
+                        <button class="box" id="2" onclick={btnClickHandler(id)}>
+                        </button>
+                    </th>
+                    <th>
+                        <button class="box" id="3" onclick={btnClickHandler(id)}>
+                        </button>
+                    </th>
+                </tr>
+
+
+                <tr>
+                    <th>
+                        <button class="box" id="4" onclick={btnClickHandler(id)}>
+                        </button>
+                    </th>
+                    <th>
+                        <button class="box" id="5" onclick={btnClickHandler(id)}>
+                        </button>
+                    </th>
+                    <th>
+                        <button class="box" id="6" onclick={btnClickHandler(id)}>
+                        </button>
+                    </th>
+                </tr>
+
+                <tr>
+                    <th>
+                        <button class="box" id="7" onclick={btnClickHandler(id)}>
+                        </button>
+                    </th>
+                    <th>
+                        <button class="box" id="8" onclick={btnClickHandler(id)}>
+                        </button>
+                    </th>
+                    <th>
+                        <button class="box" id="9" onclick={btnClickHandler(id)}>
+                        </button>
+                    </th>
+                </tr>
+            </table>
+            <button class="restart-game" onclick={restartGame()} id="restart" hidden type="button">Restart Game</button>
+
+        </div>
+    </div>
+</body>
+
+<script>
+    let btn1_count = 0
+    let check_btn_arr = [];
+    let first_player = "X"
+    let second_player = "O"
+    let player = 1
+    let winner = false
+
+    function show_winner(player) {
+        let heading = document.getElementById("winner_heading")
+        let restart = document.getElementById("restart")
+
+        if (player === "No") {
+            heading.innerText = `Match is a Draw`
+            heading.hidden = false
+            restart.hidden = false
+            return
+        }
+        if (player === 2) {
+            player = 1
+        }
+        else {
+            player = 2
+        }
+
+        heading.innerText = `player ${player} is a winner`
+        heading.hidden = false
+        restart.hidden = false
+        winner = true
+    }
+
+    function check_winner() {
+        let btn1 = document.getElementById("1").innerText
+        let btn2 = document.getElementById("2").innerText
+        let btn3 = document.getElementById("3").innerText
+        let btn4 = document.getElementById("4").innerText
+        let btn5 = document.getElementById("5").innerText
+        let btn6 = document.getElementById("6").innerText
+        let btn7 = document.getElementById("7").innerText
+        let btn8 = document.getElementById("8").innerText
+        let btn9 = document.getElementById("9").innerText
+
+        // if any cloumn, any row, any digonal matches that player is the winner
+        console.log(
+            btn1,
+            btn2,
+            btn3,
+            btn4,
+            btn5,
+            btn6,
+            btn7,
+            btn8,
+            btn9,
+        )
+        console.log(btn1 === btn2 && btn2 === btn3, btn4 === btn5 && btn5 === btn6, btn7 === btn8 && btn8 === btn9, btn1)
+
+        // no winner
+        if (
+            btn1 !== "" &&
+            btn2 !== "" &&
+            btn3 !== "" &&
+            btn4 !== "" &&
+            btn5 !== "" &&
+            btn6 !== "" &&
+            btn7 !== "" &&
+            btn8 !== "" &&
+            btn9 !== "") {
+            show_winner("No")
+        }
+
+        // rows
+        if (btn1 !== "" && btn1 === btn2 && btn2 === btn3) {
+            show_winner(player)
+            // alert("winner, ", btn2)
+        }
+
+        if (btn4 !== "" && btn4 === btn5 && btn5 === btn6) {
+            show_winner(player)
+            // alert("winner, ", btn5)
+        }
+
+        if (btn7 !== "" && btn7 === btn8 && btn8 === btn9) {
+            show_winner(player)
+            // alert("winner, ", btn8)
+        }
+
+        // columns
+        if (btn1 !== "" && btn1 === btn4 && btn4 === btn7) {
+            show_winner(player)
+            // alert("winner, ", btn1)
+        }
+
+        if (btn2 !== "" && btn2 === btn5 && btn5 === btn8) {
+            show_winner(player)
+            // alert("winner, ", btn2)
+        }
+
+        if (btn3 !== "" && btn3 === btn6 && btn6 === btn9) {
+            show_winner(player)
+            // alert("winner, ", btn3)
+        }
+
+        // digonals
+        if (btn1 !== "" && btn1 === btn5 && btn5 === btn9) {
+            show_winner(player)
+            // alert("winner, ", btn1)
+        }
+        if (btn3 !== "" && btn3 === btn5 && btn5 === btn7) {
+            show_winner(player)
+            // alert("winner, ", btn3)
+        }
+
+
+
+    }
+
+    function check_player(btn) {
+        if (player === 1) {
+            btn.innerText = first_player
+            btn.style.backgroundColor = "#00adff"
+            player = 2
+        }
+        else {
+            btn.innerText = second_player
+            btn.style.backgroundColor = "#ffc800"
+            player = 1
+        }
+        check_winner()
+    }
+
+    function btnClickHandler(id) {
+        let btn = document.getElementById(id)
+        if (check_btn_arr.indexOf(id) === -1 && winner === false) {
+            check_player(btn)
+            check_btn_arr.push(id)
+        }
+    }
+
+    function restartGame() {
+        window.location.reload();
+        // event.preventDefault()
+    }
+
+
+</script>
+
+</html>
